@@ -1,0 +1,83 @@
+@import "./variable";
+
+.App {
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px;
+    background-color: $background;
+    overflow: hidden;
+
+    .container {
+        width: 400px;
+        height: 600px;
+        margin: 0 auto;
+        padding: 15px;
+
+        background-color: $tertiary;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        border-radius: 5px;
+
+        .screen{
+            margin-bottom: 15px;
+            width: 100%;
+
+            flex: 1;
+
+            background-color: #ddd;
+            font-size: 3rem;
+
+            border-radius: 5px;
+            position: relative;
+
+            p{
+                position: absolute;
+                bottom: 0;
+                right: 5px;
+                line-height: 2.9rem;
+            }
+        }
+
+        .board {
+            width: 100%;
+            height: 450px;
+            
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 15px;
+
+            .button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 1.5rem;
+                background-color: $primary;
+                
+                border-radius: 5px;
+                border: none;
+                outline: none;
+
+                &:hover{
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+
+                span{
+                    color: $tertiary;
+                }
+
+                &.special{
+                    background-color: $secondary;
+                    grid-column-start: 1;
+                    grid-column-end: 3;
+                }
+            }
+        }
+    }
+}
