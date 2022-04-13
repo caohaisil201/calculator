@@ -5,7 +5,7 @@ const Button = ({ value, special,onClick }) => {
             className={"button " + (special ? "special" : "")}
             onClick={onClick}
         >
-            <span>{value}</span>
+            {value}
         </button>
     );
 };
