@@ -20,28 +20,75 @@ function App() {
     });
 
     console.log(calc);
-    
+
     const resetClickHandler = (e) => {
         e.preventDefault();
         setCalc({
             ...calc,
-            sign: '',
+            sign: "",
             number: 0,
             res: 0,
-        })
+        });
     };
 
     const invertClickHandler = (e) => {
         e.preventDefault();
-        setCalc({
-            ...calc,
-            number: calc.number * -1,
-        })
+        if(calc.number){
+            setCalc({
+                ...calc,
+                number: Number(calc.number) * -1,
+            })
+        }else{
+            setCalc({
+                ...calc,
+                res: Number(calc.res) * -1,
+            })
+        }
     };
 
-    const percentClickHandler = (e) => {};
+    const percentClickHandler = (e) => {
+        e.preventDefault();
+        let number = Number(calc.number / 100);
+        console.log(typeof number)
+        let res = Number(calc.res/100);
+        if(calc.number){
+            setCalc({
+                ...calc,
+                number: number.toString().includes("e")
+                    ? 0
+                    // : number.toString().length > 12
+                    // ? number.toFixed(10)
+                    : +number.toString(),
+            });
+        }else{
+            setCalc({
+                ...calc,
+                res: res.toString().includes("e")
+                    ? 0
+                    // : res.toString().length > 12
+                    // ? res.toFixed(10)
+                    : +res.toString(),
+            });
+        }
+        
+    };
 
-    const equalsClickHandler = (e) => {};
+    const equalsClickHandler = (e) => {
+        e.preventDefault();
+        const math = (a,b,sign) => sign==='+' ? a+b : sign === '-' ? a-b : sign === 'x' ? a*b : a/b
+        if(calc.sign === '/' && calc.number ===0){
+            console.log('can not divide by zero')
+            return
+        }
+        if(calc.sign){
+            setCalc({
+                ...calc,
+                res: math(calc.res,+calc.number,calc.sign),
+                sign: '',
+                number: 0,
+            })
+        }
+    };
 
     const signClickHandler = (e) => {
         e.preventDefault();
@@ -49,9 +96,9 @@ function App() {
         setCalc({
             ...calc,
             sign: value,
-            res: !calc.res && calc.number ? calc.number : calc.res,
+            res: !calc.res && calc.number ? +calc.number : calc.res,
             number: 0,
-        })
+        });
     };
 
     const commaClickHandler = (e) => {
@@ -59,23 +106,26 @@ function App() {
         const value = e.target.innerHTML;
         setCalc({
             ...calc,
-            number: !calc.number.toString().includes('.') ? calc.number + value : calc.number,
-        })
+            number: !calc.number.toString().includes(".")
+                ? calc.number + value
+                : calc.number,
+        });
     };
 
     const numClickHandler = (e) => {
         e.preventDefault();
         const number = e.target.innerHTML;
-        if (calc.number < 99999999 && calc.number.toString().length < 12) {
+        if (calc.number <= 99999999 && calc.number.toString().length < 12) {
             setCalc({
                 ...calc,
                 number:
                     calc.number === 0 && number === "0"
-                        ? "0"
+                        ? 0
+                        : calc.number.toString().includes(".")
+                        ? calc.number + number
                         : calc.number % 1 === 0
                         ? Number(calc.number + number)
                         : calc.number + number,
-                // res: calc.sign ? 0 : calc.res,
             });
         }
     };
